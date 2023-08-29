@@ -14,38 +14,40 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        textTheme: TextTheme(
+          textTheme: TextTheme(
             headlineLarge: TextStyle(
                 fontFamily: GoogleFonts.poppins().fontFamily,
-                fontSize: Responsive.screenHeight(context) * 0.001 * 28,
+                fontSize: Responsive.screenHeight(context) * 0.001 * 26,
                 height: Responsive.screenHeight(context) * 0.0018,
                 color: AppColors.secondaryColor),
             headlineMedium: TextStyle(
                 fontFamily: GoogleFonts.poppins().fontFamily,
-                fontSize: Responsive.screenHeight(context) * 0.001 * 24,
+                fontSize: Responsive.screenHeight(context) * 0.001 * 22,
                 height: Responsive.screenHeight(context) * 0.0018,
                 color: AppColors.secondaryColor),
             headlineSmall: TextStyle(
                 fontFamily: GoogleFonts.poppins().fontFamily,
-                fontSize: Responsive.screenHeight(context) * 0.001 * 22,
+                fontSize: Responsive.screenHeight(context) * 0.001 * 20,
                 height: Responsive.screenHeight(context) * 0.0018,
                 color: AppColors.secondaryColor),
             bodyLarge: TextStyle(
                 fontFamily: GoogleFonts.poppins().fontFamily,
-                fontSize: Responsive.screenHeight(context) * 0.001 * 20,
+                fontSize: Responsive.screenHeight(context) * 0.001 * 18,
                 height: Responsive.screenHeight(context) * 0.0018,
                 color: AppColors.secondaryColor),
             bodyMedium: TextStyle(
                 fontFamily: GoogleFonts.poppins().fontFamily,
-                fontSize: Responsive.screenHeight(context) * 0.001 * 18,
+                fontSize: Responsive.screenHeight(context) * 0.001 * 16,
                 height: Responsive.screenHeight(context) * 0.0018,
                 color: AppColors.secondaryColor),
             bodySmall: TextStyle(
                 fontFamily: GoogleFonts.poppins().fontFamily,
-                fontSize: Responsive.screenHeight(context) * 0.001 * 16,
+                fontSize: Responsive.screenHeight(context) * 0.001 * 14,
                 height: Responsive.screenHeight(context) * 0.0018,
-                color: AppColors.secondaryColor)),
-      ),
+                color: AppColors.secondaryColor),
+          ),
+          useMaterial3: true,
+          primaryColor: AppColors.secondaryColor),
       home: const SplashScreen(),
     );
   }
