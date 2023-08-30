@@ -70,10 +70,14 @@ class _PasswordResetFormState extends State<PasswordResetForm> {
                       ),
                       SizedBox(height: Responsive.screenHeight(context) * 0.03),
                       CustomButton(
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {}
-                          },
-                          label: 'Reset Password')
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {}
+                        },
+                        label: 'Reset Password',
+                        backgroundColor: Theme.of(context).primaryColor,
+                        foregroundColor:
+                            Theme.of(context).scaffoldBackgroundColor,
+                      )
                     ],
                   ),
                 ),

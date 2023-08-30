@@ -22,7 +22,7 @@ class CustomizedTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       validator: validator,
-      cursorColor: AppColors.secondaryColor,
+      cursorColor: Theme.of(context).primaryColor,
       controller: controller,
       style: Theme.of(context).textTheme.bodyMedium,
       decoration: InputDecoration(
@@ -34,8 +34,8 @@ class CustomizedTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           focusedBorder: !readOnly
-              ? const OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.secondaryColor))
+              ? OutlineInputBorder(
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor))
               : OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 )),

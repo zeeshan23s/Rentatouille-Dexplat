@@ -14,6 +14,7 @@ class CustomModelSheets {
       ),
       clipBehavior: Clip.hardEdge,
       builder: (context) => Material(
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: SafeArea(
           top: false,
           child: child,

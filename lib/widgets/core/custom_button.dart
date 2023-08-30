@@ -5,12 +5,14 @@ class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Color backgroundColor;
   final Color foregroundColor;
+  final bool isLoading;
   const CustomButton(
       {super.key,
       required this.label,
       required this.onPressed,
-      this.backgroundColor = AppColors.secondaryColor,
-      this.foregroundColor = AppColors.primaryColor});
+      required this.backgroundColor,
+      required this.foregroundColor,
+      this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +26,14 @@ class CustomButton extends StatelessWidget {
               BorderRadius.circular(Responsive.screenHeight(context) * 0.08),
         ),
         child: Center(
-          child: Text(
-            label,
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(fontWeight: FontWeight.w600, color: foregroundColor),
-          ),
+          child: isLoading
+              ? LoadingIndicator(
+                  indicatorType: Indicator.ballPulse, colors: [foregroundColor])
+              : Text(
+                  label,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w600, color: foregroundColor),
+                ),
         ),
       ),
     );
