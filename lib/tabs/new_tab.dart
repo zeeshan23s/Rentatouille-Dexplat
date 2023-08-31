@@ -25,14 +25,14 @@ class NewTab extends StatelessWidget {
           );
         } else {
           return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) => NewsContainer(
-                  title: snapshot.data![index].title,
-                  newsURL: snapshot.data![index].url,
-                  imageURL: snapshot.data![index].urlToImage,
-                  description: snapshot.data![index].description,
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  foregroundColor: Theme.of(context).primaryColor));
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) => NewsContainer(
+              title: snapshot.data![index].title,
+              newsURL: snapshot.data![index].url,
+              imageURL: snapshot.data![index].urlToImage,
+              description: snapshot.data![index].description,
+            ),
+          );
         }
       },
     ));
@@ -48,11 +48,9 @@ Future<List<News>> fetchData() async {
   final response = await dio.get('https://newsapi.org/v2/everything',
       queryParameters: {'q': 'real estate', 'language': 'en'});
 
-  debugPrint(response.statusCode.toString());
-
   if (response.statusCode == 200) {
     List<dynamic> data = response.data['articles'];
-    debugPrint(data.toString());
+
     for (var element in data) {
       appNews.add(News.fromJson(jsonEncode(element)));
     }
