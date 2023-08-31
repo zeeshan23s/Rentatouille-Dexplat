@@ -21,6 +21,7 @@ export 'screens/authentication/authentication_screen.dart';
 export 'screens/tenants/home_screen/tenant_home_screen.dart';
 export 'screens/authentication/create_user_screen.dart';
 export 'screens/authentication/auth_wrapper.dart';
+export 'screens/authentication/email_verification_screen.dart';
 
 // Widget Exports
 export 'widgets/core/custom_button.dart';
@@ -62,3 +63,6 @@ export 'models/news.dart';
 
 // API Exports
 export 'package:dio/dio.dart';
+
+// Other Exports
+export 'package:open_mail_app/open_mail_app.dart';

@@ -7,12 +7,15 @@ class AuthWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
       builder: (context, auth, child) {
-        // auth.logout();
         if (auth.currentUser != null) {
-          if (auth.isNewUser) {
-            return CreateUserScreen();
+          if (auth.currentUser!.emailVerified) {
+            if (auth.isNewUser) {
+              return CreateUserScreen();
+            } else {
+              return const TenantHomeScreen();
+            }
           } else {
-            return const TenantHomeScreen();
+            return const EmailVerificationScreen();
           }
         } else {
           return const AuthenticationScreen();

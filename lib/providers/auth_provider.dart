@@ -46,6 +46,7 @@ class AuthProvider with ChangeNotifier {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
+      await sendEmailVerification();
       _isNewUser = true;
       _status = {'status': 'success', 'message': 'Successfully Registered!'};
     } on FirebaseAuthException catch (e) {
@@ -118,6 +119,28 @@ class AuthProvider with ChangeNotifier {
       _status = {'status': 'success', 'message': 'Login Successful!'};
     } on FirebaseException catch (e) {
       _status = {'status': 'error', 'message': e.message ?? ""};
+    } catch (e) {
+      _status = {'status': 'error', 'message': e.toString()};
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> sendEmailVerification() async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      if (_firebaseAuth.currentUser != null) {
+        await _firebaseAuth.currentUser?.sendEmailVerification();
+      }
+      _status = {
+        'status': 'success',
+        'message': 'Verification email have been send successfully!'
+      };
+    } on FirebaseException catch (e) {
+      _status = {'status': 'error', 'message': e.message ?? ''};
     } catch (e) {
       _status = {'status': 'error', 'message': e.toString()};
     }
