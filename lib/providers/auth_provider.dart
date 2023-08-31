@@ -148,4 +148,9 @@ class AuthProvider with ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
+
+  Future<void> unregister() async {
+    await _firebaseAuth.currentUser!.delete();
+    notifyListeners();
+  }
 }

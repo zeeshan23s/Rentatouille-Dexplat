@@ -18,7 +18,7 @@ export 'constants/constant_text.dart';
 // Screen Exports
 export 'screens/splash_screen.dart';
 export 'screens/authentication/authentication_screen.dart';
-export 'screens/tenants/home_screen/tenant_home_screen.dart';
+export 'screens/home_screen.dart';
 export 'screens/authentication/create_user_screen.dart';
 export 'screens/authentication/auth_wrapper.dart';
 export 'screens/authentication/email_verification_screen.dart';
@@ -28,6 +28,7 @@ export 'widgets/core/custom_button.dart';
 export 'widgets/core/customized_textfield.dart';
 export 'widgets/core/custom_appbar.dart';
 export 'widgets/design/news_container.dart';
+export 'widgets/design/property_container.dart';
 
 // Bottom Sheet Exports
 export 'screens/authentication/forms/login_form.dart';
@@ -39,13 +40,15 @@ export 'functions/custom_modal_bottom_sheet.dart';
 
 // Tabs Export
 export 'tabs/properties_tab.dart';
-export 'tabs/new_tab.dart';
+export 'tabs/news_tab.dart';
+export 'tabs/profile_tab.dart';
 
 // State Management (Provider)
 export 'package:provider/provider.dart';
 export 'providers/theme_provider.dart';
 export 'providers/auth_provider.dart';
 export 'providers/user_provider.dart';
+export 'providers/role_provider.dart';
 
 // Firebase Exports
 export 'package:firebase_core/firebase_core.dart';
@@ -66,3 +69,4 @@ export 'package:dio/dio.dart';
 
 // Other Exports
 export 'package:open_mail_app/open_mail_app.dart';
+export 'package:image_picker/image_picker.dart';

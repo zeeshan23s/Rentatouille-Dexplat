@@ -91,8 +91,7 @@ class CreateUserScreen extends StatelessWidget {
                               () => Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const TenantHomeScreen(),
+                                  builder: (context) => const HomeScreen(),
                                 ),
                               ),
                             );

@@ -12,7 +12,7 @@ class AuthWrapper extends StatelessWidget {
             if (auth.isNewUser) {
               return CreateUserScreen();
             } else {
-              return const TenantHomeScreen();
+              return const HomeScreen();
             }
           } else {
             return const EmailVerificationScreen();

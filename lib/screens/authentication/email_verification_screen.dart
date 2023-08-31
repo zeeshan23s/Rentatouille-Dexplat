@@ -7,6 +7,7 @@ class EmailVerificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(builder: (context, auth, child) {
       return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(

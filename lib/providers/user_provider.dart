@@ -10,7 +10,6 @@ class UserProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   Map<String, String> get status => _status;
 
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   static final _userCollection = FirebaseFirestore.instance.collection('user');
   static final _storage = FirebaseStorage.instance;
 
@@ -36,31 +35,21 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<void> delete(String id) async {
-    _isLoading = true;
-    notifyListeners();
-
     try {
-      await _userCollection.doc(id).delete().then((value) {
-        _status = {'status': 'success', 'message': 'Successfully Removed!'};
-        if (_firebaseAuth.currentUser != null) {
-          _firebaseAuth.currentUser!.delete();
-        }
-      });
+      await _userCollection.doc(id).delete();
+      _status = {'status': 'success', 'message': 'Successfully Removed!'};
     } on FirebaseException catch (e) {
       _status = {'status': 'error', 'message': e.message ?? ''};
     } catch (e) {
       _status = {'status': 'error', 'message': e.toString()};
     }
-
-    _isLoading = false;
-    notifyListeners();
   }
 
   Future<void> updateImage(String id, Uint8List file, String name) async {
     _isLoading = true;
     notifyListeners();
 
-    String imageURL = await uploadImage(file, name);
+    String imageURL = await _uploadImage(file, name);
 
     try {
       await _userCollection.doc(id).update({'imageURL': imageURL}).then(
@@ -78,7 +67,7 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String> uploadImage(Uint8List file, String name) async {
+  Future<String> _uploadImage(Uint8List file, String name) async {
     final ref = _storage.ref("images/$name");
     final uploadTask = ref.putData(file);
     final snapshot = await uploadTask.whenComplete(() {});

@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import '../exports.dart';
 
-class NewTab extends StatelessWidget {
-  const NewTab({super.key});
+class NewsTab extends StatelessWidget {
+  const NewsTab({super.key});
 
   @override
   Widget build(BuildContext context) {

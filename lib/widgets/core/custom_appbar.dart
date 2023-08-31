@@ -1,7 +1,8 @@
 import '../../exports.dart';
 
 class CustomAppBar extends StatelessWidget {
-  CustomAppBar({super.key});
+  final VoidCallback onMenuTap;
+  CustomAppBar({super.key, required this.onMenuTap});
 
   final MaterialStateProperty<Icon?> thumbIcon =
       MaterialStateProperty.resolveWith<Icon?>(
@@ -19,7 +20,7 @@ class CustomAppBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(
-          onPressed: () {},
+          onPressed: onMenuTap,
           icon: Icon(Icons.menu, color: Theme.of(context).primaryColor),
         ),
         Text(
