@@ -11,14 +11,14 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isMenuOpen = false;
 
   final _tenantTabs = [
-    const PropertiesTab(),
+    PropertiesTab(),
     const NewsTab(),
     ProfileTab(),
     ProfileTab(),
   ];
 
   final _proprietorTabs = [
-    const PropertiesTab(),
+    PropertiesTab(),
     Container(),
     Container(),
     ProfileTab(),
@@ -29,68 +29,77 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<RoleProvider>(builder: (context, userRole, child) {
-      return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  CustomAppBar(
-                    onMenuTap: () {
-                      setState(() {
-                        _isMenuOpen = !_isMenuOpen;
-                      });
-                    },
-                  ),
-                  userRole.userRole == RoleType.tenant
-                      ? _tenantTabs[_selectedTab]
-                      : _proprietorTabs[_selectedTab],
-                ],
-              ),
-              _isMenuOpen
-                  ? Positioned(
-                      top: Responsive.screenHeight(context) * 0.055,
-                      left: Responsive.screenWidth(context) * 0.034,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: Responsive.screenWidth(context) * 0.04,
-                            vertical: Responsive.screenHeight(context) * 0.01),
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(
-                                Responsive.screenWidth(context) * 0.02)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _menuItem(
-                                icon: Icons.switch_account,
-                                label: userRole.userRole == RoleType.tenant
-                                    ? 'Switch to Proprietor'
-                                    : 'Switch to Tenant',
-                                onPressed: () {
-                                  userRole.toggleRole();
-                                }),
-                            _menuItem(
-                              icon: Icons.logout,
-                              label: 'Logout',
-                              onPressed: () =>
-                                  context.read<AuthProvider>().logout(),
-                            )
-                          ],
+      return GestureDetector(
+        onTap: () => setState(() {
+          _isMenuOpen = false;
+        }),
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: SafeArea(
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    CustomAppBar(
+                      onMenuTap: () {
+                        setState(() {
+                          _isMenuOpen = !_isMenuOpen;
+                        });
+                      },
+                    ),
+                    userRole.userRole == RoleType.tenant
+                        ? _tenantTabs[_selectedTab]
+                        : _proprietorTabs[_selectedTab],
+                  ],
+                ),
+                _isMenuOpen
+                    ? Positioned(
+                        top: Responsive.screenHeight(context) * 0.055,
+                        left: Responsive.screenWidth(context) * 0.034,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  Responsive.screenWidth(context) * 0.04,
+                              vertical:
+                                  Responsive.screenHeight(context) * 0.01),
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.circular(
+                                  Responsive.screenWidth(context) * 0.02)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _menuItem(
+                                  icon: Icons.switch_account,
+                                  label: userRole.userRole == RoleType.tenant
+                                      ? 'Switch to Proprietor'
+                                      : 'Switch to Tenant',
+                                  onPressed: () {
+                                    userRole.toggleRole();
+                                    _isMenuOpen = false;
+                                  }),
+                              _menuItem(
+                                icon: Icons.logout,
+                                label: 'Logout',
+                                onPressed: () =>
+                                    context.read<AuthProvider>().logout(),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                  : const SizedBox(),
-              Positioned(
-                bottom: Responsive.screenHeight(context) * 0.005,
-                left: Responsive.screenWidth(context) * 0.04,
-                right: Responsive.screenWidth(context) * 0.04,
-                child: _bottomNavigationBar(userRole.userRole == RoleType.tenant
-                    ? _tenantTabs
-                    : _proprietorTabs),
-              )
-            ],
+                      )
+                    : const SizedBox(),
+                Positioned(
+                  bottom: Responsive.screenHeight(context) * 0.005,
+                  left: Responsive.screenWidth(context) * 0.04,
+                  right: Responsive.screenWidth(context) * 0.04,
+                  child: _bottomNavigationBar(
+                      userRole.userRole == RoleType.tenant
+                          ? _tenantTabs
+                          : _proprietorTabs),
+                )
+              ],
+            ),
           ),
         ),
       );

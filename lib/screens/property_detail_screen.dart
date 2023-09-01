@@ -213,29 +213,49 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                     context.read<RoleProvider>().userRole == RoleType.tenant
                         ? Icons.chat
                         : Icons.delete)),
-            SizedBox(
-              width: Responsive.screenWidth(context) * 0.75,
-              child: CustomButton(
-                  label:
-                      context.read<RoleProvider>().userRole == RoleType.tenant
-                          ? 'Book Now'
-                          : 'Edit',
-                  onPressed: () {
-                    if (context.read<RoleProvider>().userRole ==
-                        RoleType.tenant) {
-                    } else {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ManageProperty(property: widget.property),
-                        ),
-                      );
-                    }
-                  },
-                  backgroundColor: Theme.of(context).primaryColor,
-                  foregroundColor: Theme.of(context).scaffoldBackgroundColor),
-            ),
+            Consumer<PropertyProvider>(builder: (context, property, child) {
+              return SizedBox(
+                width: Responsive.screenWidth(context) * 0.75,
+                child: CustomButton(
+                    label:
+                        context.read<RoleProvider>().userRole == RoleType.tenant
+                            ? 'Book Now'
+                            : 'Edit',
+                    onPressed: () {
+                      if (context.read<RoleProvider>().userRole ==
+                          RoleType.tenant) {
+                        property.update(
+                            Property(
+                                id: widget.property.id,
+                                title: widget.property.title,
+                                description: widget.property.description,
+                                imagesURL: widget.property.imagesURL,
+                                bedrooms: widget.property.bedrooms,
+                                area: widget.property.area,
+                                monthlyRent: widget.property.monthlyRent,
+                                address: widget.property.address,
+                                hasLounge: widget.property.hasLounge,
+                                uploadByUser: context
+                                    .read<AuthProvider>()
+                                    .currentUser!
+                                    .uid,
+                                isSold: true),
+                            null);
+                      } else {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ManageProperty(property: widget.property),
+                          ),
+                        );
+                      }
+                    },
+                    isLoading: property.isLoading,
+                    backgroundColor: Theme.of(context).primaryColor,
+                    foregroundColor: Theme.of(context).scaffoldBackgroundColor),
+              );
+            })
           ],
         ),
       ),

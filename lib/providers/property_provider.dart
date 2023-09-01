@@ -52,6 +52,13 @@ class PropertyProvider with ChangeNotifier {
         .snapshots();
   }
 
+  Stream<QuerySnapshot> inventoryProperties(String value, String userID) {
+    return _propertyCollection
+        .where('isSold', isEqualTo: false)
+        // .where('uploadByUser', isNotEqualTo: userID)
+        .snapshots();
+  }
+
   Future<void> delete(String id) async {
     try {
       await _propertyCollection.doc(id).delete();
@@ -63,16 +70,20 @@ class PropertyProvider with ChangeNotifier {
     }
   }
 
-  Future<void> update(Property property, List<XFile> images) async {
+  Future<void> update(Property property, List<XFile>? images) async {
     _isLoading = true;
     notifyListeners();
 
-    final List<String> imagesURL = [];
+    List<dynamic> imagesURL = [];
 
     try {
-      for (XFile image in images) {
-        imagesURL.add(await _uploadImage(await image.readAsBytes(),
-            '${property.title}-${imagesURL.length + 1}'));
+      if (images == null) {
+        imagesURL = property.imagesURL;
+      } else {
+        for (XFile image in images) {
+          imagesURL.add(await _uploadImage(await image.readAsBytes(),
+              '${property.title}-${imagesURL.length + 1}'));
+        }
       }
       await _propertyCollection.doc(property.id).update(property.toMap()).then(
         (value) {

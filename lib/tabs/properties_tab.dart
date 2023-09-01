@@ -1,13 +1,13 @@
 import '../exports.dart';
 
 class PropertiesTab extends StatelessWidget {
-  const PropertiesTab({super.key});
+  PropertiesTab({super.key});
+
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final userRole = Provider.of<RoleProvider>(context);
-
-    final TextEditingController _searchController = TextEditingController();
 
     return Flexible(
       child: Padding(
@@ -22,7 +22,8 @@ class PropertiesTab extends StatelessWidget {
                     ? CustomizedTextField(
                         controller: _searchController,
                         labelText: 'Search',
-                        prefixIcon: const Icon(Icons.search))
+                        prefixIcon: const Icon(Icons.search),
+                      )
                     : Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -36,13 +37,23 @@ class PropertiesTab extends StatelessWidget {
                 Expanded(
                   child: Consumer<PropertyProvider>(
                     builder: (context, property, child) {
+                      debugPrint(_searchController.text);
                       return StreamBuilder(
-                          stream: property.myProperties(
-                              context.read<AuthProvider>().currentUser!.uid),
+                          stream: userRole.userRole == RoleType.tenant
+                              ? property.inventoryProperties(
+                                  _searchController.text,
+                                  context.read<AuthProvider>().currentUser!.uid)
+                              : property.myProperties(context
+                                  .read<AuthProvider>()
+                                  .currentUser!
+                                  .uid),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               List<QueryDocumentSnapshot> properties =
                                   snapshot.data!.docs;
+                              properties.removeWhere((element) =>
+                                  !element['address']
+                                      .contains(_searchController.text));
                               return ListView.builder(
                                 itemCount: properties.length,
                                 itemBuilder: (context, index) =>
@@ -65,9 +76,10 @@ class PropertiesTab extends StatelessWidget {
                                 ),
                               );
                             } else {
-                              return Center(
-                                child: CircularProgressIndicator(
-                                    color: Theme.of(context).primaryColor),
+                              return Column(
+                                children: [
+                                  Text('No Property'),
+                                ],
                               );
                             }
                           });
