@@ -10,7 +10,7 @@ class UserProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   Map<String, String> get status => _status;
 
-  static final _userCollection = FirebaseFirestore.instance.collection('user');
+  static final _userCollection = FirebaseFirestore.instance.collection('users');
   static final _storage = FirebaseStorage.instance;
 
   Future<void> create(AppUser user) async {
@@ -68,7 +68,7 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<String> _uploadImage(Uint8List file, String name) async {
-    final ref = _storage.ref("images/$name");
+    final ref = _storage.ref("images/profile/$name");
     final uploadTask = ref.putData(file);
     final snapshot = await uploadTask.whenComplete(() {});
     return await snapshot.ref.getDownloadURL();

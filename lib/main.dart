@@ -21,6 +21,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<RoleProvider>(create: (_) => RoleProvider()),
         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
         ChangeNotifierProvider<UserProvider>(create: (_) => UserProvider()),
+        ChangeNotifierProvider<PropertyProvider>(
+            create: (_) => PropertyProvider()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, theme, child) {

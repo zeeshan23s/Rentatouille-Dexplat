@@ -22,6 +22,7 @@ export 'screens/home_screen.dart';
 export 'screens/authentication/create_user_screen.dart';
 export 'screens/authentication/auth_wrapper.dart';
 export 'screens/authentication/email_verification_screen.dart';
+export 'screens/add_property_screen.dart';
 
 // Widget Exports
 export 'widgets/core/custom_button.dart';
@@ -49,6 +50,7 @@ export 'providers/theme_provider.dart';
 export 'providers/auth_provider.dart';
 export 'providers/user_provider.dart';
 export 'providers/role_provider.dart';
+export 'providers/property_provider.dart';
 
 // Firebase Exports
 export 'package:firebase_core/firebase_core.dart';
@@ -63,6 +65,7 @@ export 'package:google_sign_in/google_sign_in.dart';
 // Model Exports
 export 'models/app_user.dart';
 export 'models/news.dart';
+export 'models/property.dart';
 
 // API Exports
 export 'package:dio/dio.dart';
