@@ -22,7 +22,8 @@ export 'screens/home_screen.dart';
 export 'screens/authentication/create_user_screen.dart';
 export 'screens/authentication/auth_wrapper.dart';
 export 'screens/authentication/email_verification_screen.dart';
-export 'screens/add_property_screen.dart';
+export 'screens/manage_property_screen.dart';
+export 'screens/property_detail_screen.dart';
 
 // Widget Exports
 export 'widgets/core/custom_button.dart';

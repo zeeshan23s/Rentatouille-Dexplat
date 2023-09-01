@@ -65,7 +65,11 @@ class PropertyContainer extends StatelessWidget {
                 textAlign: TextAlign.justify,
               ),
               trailing: IconButton(
-                onPressed: () {},
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            PropertyDetailScreen(property: property))),
                 icon: Icon(
                   Icons.arrow_outward_outlined,
                   color: Theme.of(context).primaryColor,

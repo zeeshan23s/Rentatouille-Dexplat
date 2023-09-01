@@ -65,8 +65,10 @@ class PropertiesTab extends StatelessWidget {
                                 ),
                               );
                             } else {
-                              return const Center(
-                                  child: CircularProgressIndicator());
+                              return Center(
+                                child: CircularProgressIndicator(
+                                    color: Theme.of(context).primaryColor),
+                              );
                             }
                           });
                     },
@@ -88,7 +90,7 @@ class PropertiesTab extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const AddProperty(),
+                            builder: (context) => const ManageProperty(),
                           ),
                         );
                       },
