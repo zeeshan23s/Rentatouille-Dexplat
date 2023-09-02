@@ -22,7 +22,8 @@ class PropertiesTab extends StatelessWidget {
                     ? CustomizedTextField(
                         controller: _searchController,
                         labelText: 'Search',
-                        prefixIcon: const Icon(Icons.search),
+                        prefixIcon: Icon(Icons.search,
+                            color: Theme.of(context).primaryColor),
                       )
                     : Align(
                         alignment: Alignment.centerLeft,
@@ -37,7 +38,6 @@ class PropertiesTab extends StatelessWidget {
                 Expanded(
                   child: Consumer<PropertyProvider>(
                     builder: (context, property, child) {
-                      debugPrint(_searchController.text);
                       return StreamBuilder(
                           stream: userRole.userRole == RoleType.tenant
                               ? property.inventoryProperties(
@@ -76,10 +76,9 @@ class PropertiesTab extends StatelessWidget {
                                 ),
                               );
                             } else {
-                              return Column(
-                                children: [
-                                  Text('No Property'),
-                                ],
+                              return Center(
+                                child: CircularProgressIndicator(
+                                    color: Theme.of(context).primaryColor),
                               );
                             }
                           });

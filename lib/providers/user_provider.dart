@@ -73,4 +73,14 @@ class UserProvider with ChangeNotifier {
     final snapshot = await uploadTask.whenComplete(() {});
     return await snapshot.ref.getDownloadURL();
   }
+
+  Future<AppUser> getUser(String properyId) async {
+    DocumentSnapshot appUser = await _userCollection.doc(properyId).get();
+    return AppUser(
+        id: appUser.id,
+        name: appUser['name'],
+        email: appUser['email'],
+        phoneNumber: appUser['phoneNumber'],
+        address: appUser['address']);
+  }
 }

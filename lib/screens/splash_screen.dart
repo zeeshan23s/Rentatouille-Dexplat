@@ -7,7 +7,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
         splash: AppAssets.appLogo,
-        nextScreen: const AuthWrapper(),
+        nextScreen: const HomeScreen(),
         splashTransition: SplashTransition.scaleTransition,
         splashIconSize: Responsive.screenWidth(context) * 0.325,
         backgroundColor: Colors.white);

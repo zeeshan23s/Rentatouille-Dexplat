@@ -141,4 +141,20 @@ class PropertyProvider with ChangeNotifier {
     notifyListeners();
     return images;
   }
+
+  Future<Property> getProperty(String properyId) async {
+    DocumentSnapshot property = await _propertyCollection.doc(properyId).get();
+    return Property(
+        id: property.id,
+        title: property['title'],
+        description: property['description'],
+        imagesURL: property['imagesURL'],
+        bedrooms: property['bedrooms'],
+        area: property['area'],
+        monthlyRent: property['monthlyRent'],
+        address: property['address'],
+        hasLounge: property['hasLounge'],
+        uploadByUser: property['uploadByUser'],
+        isSold: property['isSold']);
+  }
 }

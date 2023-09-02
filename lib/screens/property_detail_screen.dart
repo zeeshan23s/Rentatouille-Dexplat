@@ -201,12 +201,36 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
             FloatingActionButton(
                 backgroundColor: Theme.of(context).primaryColor,
                 foregroundColor: Theme.of(context).scaffoldBackgroundColor,
-                onPressed: () {
+                onPressed: () async {
                   if (context.read<RoleProvider>().userRole ==
                       RoleType.tenant) {
+                    await context
+                        .read<ChatProvider>()
+                        .initialize(
+                          Chat(
+                            id: '',
+                            tenantID:
+                                context.read<AuthProvider>().currentUser!.uid,
+                            proprietorID: widget.property.uploadByUser,
+                            propertyID: widget.property.id,
+                            chat: [],
+                          ),
+                        )
+                        .then((value) {
+                      if (value != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatScreen(chatId: value),
+                          ),
+                        );
+                      }
+                    });
                   } else {
-                    context.read<PropertyProvider>().delete(widget.property.id);
-                    Navigator.pop(context);
+                    context
+                        .read<PropertyProvider>()
+                        .delete(widget.property.id)
+                        .whenComplete(() => Navigator.pop(context));
                   }
                 },
                 child: Icon(
