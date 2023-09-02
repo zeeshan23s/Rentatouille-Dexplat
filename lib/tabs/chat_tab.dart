@@ -56,35 +56,44 @@ class _ChatTabState extends State<ChatTab> {
   Widget build(BuildContext context) {
     return Flexible(
       child: _chatLoading == false
-          ? ListView.builder(
-              itemCount: _chats.length,
-              itemBuilder: ((context, index) {
-                return Card(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  child: ListTile(
-                    leading: CircleAvatar(
-                        foregroundImage: NetworkImage(
-                            _chats[index]['property'].imagesURL[0])),
-                    title: Text(_chats[index]['property'].title,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w600)),
-                    subtitle: Text('${_chats[index]['user'].name}\n(Seller)',
-                        style: Theme.of(context).textTheme.bodySmall),
-                    trailing: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ChatScreen(
-                                      chatId: _chats[index]['chatId'])));
-                        },
-                        icon: const Icon(Icons.chat_outlined)),
-                  ),
-                );
-              }),
-            )
+          ? _chats.isEmpty
+              ? Center(
+                  child: Text('No chats available',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(fontWeight: FontWeight.w500)),
+                )
+              : ListView.builder(
+                  itemCount: _chats.length,
+                  itemBuilder: ((context, index) {
+                    return Card(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      child: ListTile(
+                        leading: CircleAvatar(
+                            foregroundImage: NetworkImage(
+                                _chats[index]['property'].imagesURL[0])),
+                        title: Text(_chats[index]['property'].title,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(fontWeight: FontWeight.w600)),
+                        subtitle: Text(
+                            '${_chats[index]['user'].name}\n(Seller)',
+                            style: Theme.of(context).textTheme.bodySmall),
+                        trailing: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ChatScreen(
+                                          chatId: _chats[index]['chatId'])));
+                            },
+                            icon: const Icon(Icons.chat_outlined)),
+                      ),
+                    );
+                  }),
+                )
           : Center(
               child: CircularProgressIndicator(
                   color: Theme.of(context).primaryColor),

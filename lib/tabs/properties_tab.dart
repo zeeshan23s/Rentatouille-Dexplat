@@ -21,7 +21,7 @@ class PropertiesTab extends StatelessWidget {
                 userRole.userRole == RoleType.tenant
                     ? CustomizedTextField(
                         controller: _searchController,
-                        labelText: 'Search',
+                        labelText: 'Search By Location',
                         prefixIcon: Icon(Icons.search,
                             color: Theme.of(context).primaryColor),
                       )
@@ -48,12 +48,36 @@ class PropertiesTab extends StatelessWidget {
                                   .currentUser!
                                   .uid),
                           builder: (context, snapshot) {
-                            if (snapshot.hasData) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                    color: Theme.of(context).primaryColor),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Center(
+                                child: Text('Error: ${snapshot.error}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w500)),
+                              );
+                            } else if (snapshot.data!.docs.isEmpty) {
+                              return Center(
+                                child: Text('No data available',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w500)),
+                              );
+                            } else {
                               List<QueryDocumentSnapshot> properties =
                                   snapshot.data!.docs;
                               properties.removeWhere((element) =>
-                                  !element['address']
-                                      .contains(_searchController.text));
+                                  !element['address'].contains(
+                                      _searchController.text.toLowerCase()));
                               return ListView.builder(
                                 itemCount: properties.length,
                                 itemBuilder: (context, index) =>
@@ -74,11 +98,6 @@ class PropertiesTab extends StatelessWidget {
                                           ['uploadByUser'],
                                       isSold: properties[index]['isSold']),
                                 ),
-                              );
-                            } else {
-                              return Center(
-                                child: CircularProgressIndicator(
-                                    color: Theme.of(context).primaryColor),
                               );
                             }
                           });

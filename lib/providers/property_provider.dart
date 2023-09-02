@@ -55,7 +55,7 @@ class PropertyProvider with ChangeNotifier {
   Stream<QuerySnapshot> inventoryProperties(String value, String userID) {
     return _propertyCollection
         .where('isSold', isEqualTo: false)
-        // .where('uploadByUser', isNotEqualTo: userID)
+        .where('uploadByUser', isNotEqualTo: userID)
         .snapshots();
   }
 
