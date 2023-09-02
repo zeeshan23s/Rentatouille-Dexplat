@@ -13,14 +13,14 @@ class _HomeScreenState extends State<HomeScreen> {
   final _tenantTabs = [
     PropertiesTab(),
     const NewsTab(),
-    ChatTab(),
+    const ChatTab(),
     ProfileTab(),
   ];
 
   final _proprietorTabs = [
     PropertiesTab(),
-    Container(),
-    Container(),
+    const NewsTab(),
+    const ChatTab(),
     ProfileTab(),
   ];
 

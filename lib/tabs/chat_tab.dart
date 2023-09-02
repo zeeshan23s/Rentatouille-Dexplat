@@ -21,14 +21,16 @@ class _ChatTabState extends State<ChatTab> {
   void getChats() async {
     _chatLoading = true;
 
+    RoleType userRole = context.read<RoleProvider>().userRole;
+
     if (mounted) {
-      QuerySnapshot chats = await context
-          .read<ChatProvider>()
-          .viewChats(context.read<AuthProvider>().currentUser!.uid);
+      QuerySnapshot chats = await context.read<ChatProvider>().viewChats(
+          context.read<RoleProvider>().userRole,
+          context.read<AuthProvider>().currentUser!.uid);
 
       for (DocumentSnapshot chat in chats.docs) {
         Property? property = await _getPropertyInfo(chat['propertyID']);
-        AppUser? user = await _getUserInfo(chat['proprietorID']);
+        AppUser? user = await _getUserInfo(chat['${userRole.name}ID']);
         _chats.add({'chatId': chat.id, 'property': property, 'user': user});
       }
     }
@@ -79,7 +81,7 @@ class _ChatTabState extends State<ChatTab> {
                                 .bodyMedium
                                 ?.copyWith(fontWeight: FontWeight.w600)),
                         subtitle: Text(
-                            '${_chats[index]['user'].name}\n(Seller)',
+                            '${_chats[index]['user'].name}\n(${context.read<RoleProvider>().userRole == RoleType.proprietor ? 'Tenant' : 'Proprietor'})',
                             style: Theme.of(context).textTheme.bodySmall),
                         trailing: IconButton(
                             onPressed: () {

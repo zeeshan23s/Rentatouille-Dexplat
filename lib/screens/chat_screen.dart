@@ -95,7 +95,13 @@ class ChatScreen extends StatelessWidget {
               prefixIcon:
                   Icon(Icons.message, color: Theme.of(context).primaryColor),
               suffixIcon: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<ChatProvider>().update(chatId, {
+                      context.read<AuthProvider>().currentUser!.uid.toString():
+                          _messageController.text
+                    });
+                    _messageController.clear();
+                  },
                   icon:
                       Icon(Icons.send, color: Theme.of(context).primaryColor)),
             )

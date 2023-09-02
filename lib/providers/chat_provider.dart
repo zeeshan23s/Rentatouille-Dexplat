@@ -43,19 +43,32 @@ class ChatProvider with ChangeNotifier {
     return chatId;
   }
 
-  Future<void> update(Chat chat) async {
+  Future<void> update(String chatId, Map<String, String> message) async {
     _isLoading = true;
     notifyListeners();
 
+    List<dynamic> chat = [];
+
     try {
-      await _chatCollection.doc(chat.id).update(chat.toMap()).then(
+      await _chatCollection
+          .doc(chatId)
+          .get()
+          .then((value) => chat = value.data()!.entries.first.value);
+
+      debugPrint(chat.first.entries.toString());
+
+      chat.add(message);
+
+      await _chatCollection.doc(chatId).update({'chat': chat}).then(
         (value) {
           _status = {'status': 'success', 'message': 'Successfully Created!'};
         },
       );
     } on FirebaseException catch (e) {
+      debugPrint(message.toString());
       _status = {'status': 'error', 'message': e.message ?? ''};
     } catch (e) {
+      debugPrint(message.toString());
       _status = {'status': 'error', 'message': e.toString()};
     }
 
@@ -63,8 +76,8 @@ class ChatProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<QuerySnapshot> viewChats(String userID) {
-    return _chatCollection.where('tenantID', isEqualTo: userID).get();
+  Future<QuerySnapshot> viewChats(RoleType userRole, String userID) {
+    return _chatCollection.where('${userRole.name}ID', isEqualTo: userID).get();
   }
 
   Stream<DocumentSnapshot> streamChat(String chatId) {
