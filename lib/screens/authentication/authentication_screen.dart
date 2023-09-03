@@ -1,5 +1,3 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import '../../exports.dart';
 
 class AuthenticationScreen extends StatelessWidget {

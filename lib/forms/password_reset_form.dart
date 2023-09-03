@@ -1,4 +1,4 @@
-import '../../../exports.dart';
+import '../exports.dart';
 
 class PasswordResetForm extends StatefulWidget {
   const PasswordResetForm({super.key});

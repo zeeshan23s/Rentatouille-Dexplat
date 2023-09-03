@@ -3,6 +3,7 @@ export 'package:flutter/material.dart';
 export 'package:google_fonts/google_fonts.dart';
 export 'package:animated_splash_screen/animated_splash_screen.dart';
 export 'package:loading_indicator/loading_indicator.dart';
+export 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // Utils Exports
 export 'utils/responsive.dart';
@@ -34,9 +35,10 @@ export 'widgets/design/news_container.dart';
 export 'widgets/design/property_container.dart';
 
 // Bottom Sheet Exports
-export 'screens/authentication/forms/login_form.dart';
-export 'screens/authentication/forms/registration_form.dart';
-export 'screens/authentication/forms/password_reset_form.dart';
+export 'forms/login_form.dart';
+export 'forms/registration_form.dart';
+export 'forms/password_reset_form.dart';
+export 'forms/review_form.dart';
 
 // Function Exports
 export 'functions/custom_modal_bottom_sheet.dart';
@@ -55,6 +57,7 @@ export 'providers/user_provider.dart';
 export 'providers/role_provider.dart';
 export 'providers/property_provider.dart';
 export 'providers/chat_provider.dart';
+export 'providers/review_provider.dart';
 
 // Firebase Exports
 export 'package:firebase_core/firebase_core.dart';
@@ -71,6 +74,7 @@ export 'models/app_user.dart';
 export 'models/news.dart';
 export 'models/property.dart';
 export 'models/chat.dart';
+export 'models/property_review.dart';
 
 // API Exports
 export 'package:dio/dio.dart';

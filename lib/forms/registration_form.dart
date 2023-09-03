@@ -1,4 +1,4 @@
-import '../../../exports.dart';
+import '../exports.dart';
 
 class RegistrationForm extends StatefulWidget {
   const RegistrationForm({super.key});

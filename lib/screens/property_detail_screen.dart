@@ -162,6 +162,154 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                       ?.copyWith(fontWeight: FontWeight.w500),
                 ),
               ),
+              StreamBuilder(
+                  stream: context
+                      .read<ReviewProvider>()
+                      .viewReview(widget.property.id),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      List<dynamic> reviewsId =
+                          snapshot.data!['reviewProviderIds'];
+                      double reviews =
+                          double.parse(snapshot.data!['reviews'].toString());
+                      bool alreadyReviewed = reviewsId.contains(
+                          context.read<AuthProvider>().currentUser!.uid);
+                      return Card(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  Responsive.screenWidth(context) * 0.02,
+                              vertical:
+                                  Responsive.screenHeight(context) * 0.01),
+                          child: SizedBox(
+                            height: Responsive.screenHeight(context) * 0.1,
+                            width: Responsive.screenWidth(context) * 0.9,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Reviews (${reviewsId.length})',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.w600),
+                                    ),
+                                    alreadyReviewed ||
+                                            context
+                                                    .read<RoleProvider>()
+                                                    .userRole ==
+                                                RoleType.proprietor
+                                        ? const SizedBox()
+                                        : GestureDetector(
+                                            onTap: () =>
+                                                CustomModelSheets.bottomSheet(
+                                              context: context,
+                                              child: ReviewForm(
+                                                  propertyId:
+                                                      widget.property.id),
+                                            ),
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical:
+                                                      Responsive.screenHeight(
+                                                              context) *
+                                                          0.01,
+                                                  horizontal:
+                                                      Responsive.screenWidth(
+                                                              context) *
+                                                          0.02),
+                                              decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          Responsive
+                                                                  .screenWidth(
+                                                                      context) *
+                                                              0.05)),
+                                              child: Text(
+                                                'Give Reviews',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium
+                                                    ?.copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Theme.of(context)
+                                                            .scaffoldBackgroundColor),
+                                              ),
+                                            ),
+                                          )
+                                  ],
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          Responsive.screenWidth(context) *
+                                              0.02),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        reviews.toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineLarge
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w600),
+                                      ),
+                                      SizedBox(
+                                          height:
+                                              Responsive.screenHeight(context) *
+                                                  0.05),
+                                      Row(
+                                        children: List.generate(
+                                          5,
+                                          (index) {
+                                            if (index + 1 <= reviews.floor()) {
+                                              return const Icon(
+                                                Icons.star,
+                                                color: Colors.amber,
+                                              );
+                                            } else if (reviews.floor() <
+                                                    index + 1 &&
+                                                reviews.ceil() == index + 1) {
+                                              return const Icon(
+                                                Icons.star_half,
+                                                color: Colors.amber,
+                                              );
+                                            } else {
+                                              return const Icon(
+                                                Icons.star_border,
+                                                color: Colors.amber,
+                                              );
+                                            }
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor),
+                      );
+                    }
+                  }),
               SizedBox(height: Responsive.screenHeight(context) * 0.015),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,

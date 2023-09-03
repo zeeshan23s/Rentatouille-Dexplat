@@ -49,10 +49,9 @@ class ChatProvider with ChangeNotifier {
 
     List<dynamic> chat = [];
 
-    debugPrint(chatId.toString());
     try {
       await _chatCollection.doc(chatId).get().then((value) {
-        if (value.data()!.entries.isNotEmpty) {
+        if (value.data()!.entries.first.value.isNotEmpty) {
           chat = value.data()!.entries.first.value;
         }
       });
