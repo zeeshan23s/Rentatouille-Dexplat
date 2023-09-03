@@ -24,12 +24,12 @@ class PropertyProvider with ChangeNotifier {
     final List<String> imagesURL = [];
 
     try {
-      for (XFile image in images) {
-        imagesURL.add(await _uploadImage(await image.readAsBytes(),
-            '${property.title}-${imagesURL.length + 1}'));
-      }
       await _propertyCollection.add(property.toMap()).then(
-        (value) {
+        (value) async {
+          for (XFile image in images) {
+            imagesURL.add(await _uploadImage(await image.readAsBytes(),
+                '${value.id}-${imagesURL.length + 1}'));
+          }
           _propertyCollection
               .doc(value.id)
               .update({'id': value.id, 'imagesURL': imagesURL});
@@ -55,7 +55,7 @@ class PropertyProvider with ChangeNotifier {
   Stream<QuerySnapshot> inventoryProperties(String value, String userID) {
     return _propertyCollection
         .where('isSold', isEqualTo: false)
-        .where('uploadByUser', isNotEqualTo: userID)
+        // .where('uploadByUser', isNotEqualTo: userID)
         .snapshots();
   }
 
@@ -77,16 +77,16 @@ class PropertyProvider with ChangeNotifier {
     List<dynamic> imagesURL = [];
 
     try {
-      if (images == null) {
-        imagesURL = property.imagesURL;
-      } else {
-        for (XFile image in images) {
-          imagesURL.add(await _uploadImage(await image.readAsBytes(),
-              '${property.title}-${imagesURL.length + 1}'));
-        }
-      }
       await _propertyCollection.doc(property.id).update(property.toMap()).then(
-        (value) {
+        (value) async {
+          if (images == null) {
+            imagesURL = property.imagesURL;
+          } else {
+            for (XFile image in images) {
+              imagesURL.add(await _uploadImage(await image.readAsBytes(),
+                  '${property.title}-${imagesURL.length + 1}'));
+            }
+          }
           _propertyCollection.doc(property.id).update({'imagesURL': imagesURL});
           _status = {'status': 'success', 'message': 'Successfully Updated!'};
         },

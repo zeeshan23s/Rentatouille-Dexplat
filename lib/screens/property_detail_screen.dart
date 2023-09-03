@@ -13,6 +13,12 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String location = '';
+    List<String> locationList = widget.property.address.split(' ');
+    for (String txt in locationList) {
+      location = '$location${txt.replaceFirst(txt[0], txt[0].toUpperCase())} ';
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -145,11 +151,11 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                   'Location',
                   style: Theme.of(context)
                       .textTheme
-                      .headlineSmall
+                      .bodyLarge
                       ?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 subtitle: Text(
-                  widget.property.address,
+                  location,
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium

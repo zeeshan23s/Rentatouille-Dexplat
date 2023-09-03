@@ -74,27 +74,19 @@ class CreateUserScreen extends StatelessWidget {
                       if (_formKey.currentState!.validate()) {
                         await user
                             .create(
-                              AppUser(
-                                  id: context
-                                      .read<AuthProvider>()
-                                      .currentUser!
-                                      .uid,
-                                  name: _nameController.text,
-                                  email: context
-                                      .read<AuthProvider>()
-                                      .currentUser!
-                                      .email!,
-                                  phoneNumber: _phoneController.text,
-                                  address: _addressController.text),
-                            )
-                            .whenComplete(
-                              () => Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomeScreen(),
-                                ),
-                              ),
-                            );
+                          AppUser(
+                              id: context.read<AuthProvider>().currentUser!.uid,
+                              name: _nameController.text,
+                              email: context
+                                  .read<AuthProvider>()
+                                  .currentUser!
+                                  .email!,
+                              phoneNumber: _phoneController.text,
+                              address: _addressController.text),
+                        )
+                            .whenComplete(() {
+                          context.read<AuthProvider>().setIsNewUser(false);
+                        });
                       }
                     },
                     label: 'Create',

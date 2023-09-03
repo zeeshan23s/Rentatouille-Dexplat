@@ -91,7 +91,11 @@ class _ManagePropertyState extends State<ManageProperty> {
                           children: [
                             GestureDetector(
                               onTap: () async {
-                                _images = await picker.pickMultiImage();
+                                List<XFile> tempImages =
+                                    await picker.pickMultiImage();
+                                for (XFile img in tempImages) {
+                                  _images.add(img);
+                                }
                                 setState(() {});
                               },
                               child: Container(
@@ -213,21 +217,22 @@ class _ManagePropertyState extends State<ManageProperty> {
             if (widget.property == null) {
               await property
                   .create(
-                      Property(
-                          id: '',
-                          title: _titleController.text,
-                          description: _descriptionController.text,
-                          imagesURL: [],
-                          bedrooms: int.parse(_bedroomController.text),
-                          area: int.parse(_areaController.text),
-                          monthlyRent: int.parse(_monthlyRentController.text),
-                          address: _addressController.text,
-                          hasLounge: hasLounge,
-                          uploadByUser:
-                              context.read<AuthProvider>().currentUser!.uid,
-                          isSold: false,
-                          buyerId: null),
-                      _images)
+                    Property(
+                        id: '',
+                        title: _titleController.text,
+                        description: _descriptionController.text,
+                        imagesURL: [],
+                        bedrooms: int.parse(_bedroomController.text),
+                        area: int.parse(_areaController.text),
+                        monthlyRent: int.parse(_monthlyRentController.text),
+                        address: _addressController.text.toLowerCase(),
+                        hasLounge: hasLounge,
+                        uploadByUser:
+                            context.read<AuthProvider>().currentUser!.uid,
+                        isSold: false,
+                        buyerId: null),
+                    _images,
+                  )
                   .whenComplete(
                     () => Navigator.pop(context),
                   );

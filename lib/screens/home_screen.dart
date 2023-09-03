@@ -132,9 +132,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   });
                 },
                 icon: Icon(
-                  tabIcon(
-                    tabs.indexOf(e.value),
-                  ),
+                  context.read<RoleProvider>().userRole == RoleType.tenant
+                      ? tenantTabIcon(
+                          tabs.indexOf(e.value),
+                        )
+                      : proprietorTabIcon(
+                          tabs.indexOf(e.value),
+                        ),
                   size: 28,
                   color: _selectedTab == tabs.indexOf(e.value)
                       ? Theme.of(context).scaffoldBackgroundColor
@@ -174,12 +178,25 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-IconData tabIcon(int index) {
+IconData tenantTabIcon(int index) {
   switch (index) {
     case 0:
       return Icons.home;
     case 1:
       return Icons.newspaper;
+    case 2:
+      return Icons.question_answer;
+    default:
+      return Icons.person;
+  }
+}
+
+IconData proprietorTabIcon(int index) {
+  switch (index) {
+    case 0:
+      return Icons.home;
+    case 1:
+      return Icons.attach_money_outlined;
     case 2:
       return Icons.question_answer;
     default:

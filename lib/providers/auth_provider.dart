@@ -153,4 +153,9 @@ class AuthProvider with ChangeNotifier {
     await _firebaseAuth.currentUser!.delete();
     notifyListeners();
   }
+
+  void setIsNewUser(bool value) {
+    _isNewUser = value;
+    notifyListeners();
+  }
 }

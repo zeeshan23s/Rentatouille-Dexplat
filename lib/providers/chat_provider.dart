@@ -20,7 +20,7 @@ class ChatProvider with ChangeNotifier {
           .where('propertyID', isEqualTo: chat.propertyID)
           .get();
 
-      if (findChat.docs.first.exists) {
+      if (findChat.docs.isNotEmpty) {
         chatId = findChat.docs.first.id;
       } else {
         await _chatCollection.add(chat.toMap()).then(
@@ -49,13 +49,13 @@ class ChatProvider with ChangeNotifier {
 
     List<dynamic> chat = [];
 
+    debugPrint(chatId.toString());
     try {
-      await _chatCollection
-          .doc(chatId)
-          .get()
-          .then((value) => chat = value.data()!.entries.first.value);
-
-      debugPrint(chat.first.entries.toString());
+      await _chatCollection.doc(chatId).get().then((value) {
+        if (value.data()!.entries.isNotEmpty) {
+          chat = value.data()!.entries.first.value;
+        }
+      });
 
       chat.add(message);
 

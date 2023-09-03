@@ -69,15 +69,42 @@ class _PasswordResetFormState extends State<PasswordResetForm> {
                         prefixIcon: const Icon(Icons.email),
                       ),
                       SizedBox(height: Responsive.screenHeight(context) * 0.03),
-                      CustomButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {}
-                        },
-                        label: 'Reset Password',
-                        backgroundColor: Theme.of(context).primaryColor,
-                        foregroundColor:
-                            Theme.of(context).scaffoldBackgroundColor,
-                      )
+                      Consumer<AuthProvider>(builder: (context, auth, child) {
+                        return CustomButton(
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              auth
+                                  .forgotPassword(_emailController.text)
+                                  .whenComplete(() {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      auth.status['message']!,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(
+                                              color: AppColors
+                                                  .lightThemePrimaryColor),
+                                    ),
+                                    backgroundColor:
+                                        auth.status['status'] == 'success'
+                                            ? Colors.green
+                                            : Colors.red,
+                                    duration: const Duration(seconds: 2),
+                                  ),
+                                );
+                              });
+                            }
+                          },
+                          label: 'Reset Password',
+                          backgroundColor: Theme.of(context).primaryColor,
+                          foregroundColor:
+                              Theme.of(context).scaffoldBackgroundColor,
+                          isLoading: auth.isLoading,
+                        );
+                      })
                     ],
                   ),
                 ),
