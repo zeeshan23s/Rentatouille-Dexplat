@@ -34,8 +34,11 @@ class RentHistoryScreen extends StatelessWidget {
             horizontal: Responsive.screenWidth(context) * 0.04),
         child: Column(
           children: rentHistroy.asMap().entries.map((e) {
-            DateTime paymentDate = DateTime.fromMicrosecondsSinceEpoch(
-                e.value['receivedDate'].microsecondsSinceEpoch);
+            DateTime? paymentDate;
+            if (e.value['receivedDate'] != null) {
+              paymentDate = DateTime.fromMicrosecondsSinceEpoch(
+                  e.value['receivedDate'].microsecondsSinceEpoch);
+            }
             return Card(
               color: Theme.of(context).scaffoldBackgroundColor,
               child: Padding(
@@ -81,8 +84,9 @@ class RentHistoryScreen extends StatelessWidget {
                             style: Theme.of(context).textTheme.bodySmall,
                             children: <TextSpan>[
                               TextSpan(
-                                text:
-                                    '${checkMonth(paymentDate.month)} ${paymentDate.day}, ${paymentDate.year}',
+                                text: e.value['receivedDate'] != null
+                                    ? '${checkMonth(paymentDate!.month)} ${paymentDate.day}, ${paymentDate.year}'
+                                    : 'Unpaid',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium

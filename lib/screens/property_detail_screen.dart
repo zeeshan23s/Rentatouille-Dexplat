@@ -414,10 +414,11 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                     monthlyRent: widget.property.monthlyRent,
                                     address: widget.property.address,
                                     hasLounge: widget.property.hasLounge,
-                                    uploadByUser: context
+                                    buyerId: context
                                         .read<AuthProvider>()
                                         .currentUser!
                                         .uid,
+                                    uploadByUser: widget.property.uploadByUser,
                                     isSold: true),
                                 null)
                             .then(
