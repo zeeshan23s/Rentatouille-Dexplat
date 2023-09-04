@@ -402,23 +402,37 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                     onPressed: () {
                       if (context.read<RoleProvider>().userRole ==
                           RoleType.tenant) {
-                        property.update(
-                            Property(
-                                id: widget.property.id,
-                                title: widget.property.title,
-                                description: widget.property.description,
-                                imagesURL: widget.property.imagesURL,
-                                bedrooms: widget.property.bedrooms,
-                                area: widget.property.area,
-                                monthlyRent: widget.property.monthlyRent,
-                                address: widget.property.address,
-                                hasLounge: widget.property.hasLounge,
-                                uploadByUser: context
-                                    .read<AuthProvider>()
-                                    .currentUser!
-                                    .uid,
-                                isSold: true),
-                            null);
+                        property
+                            .update(
+                                Property(
+                                    id: widget.property.id,
+                                    title: widget.property.title,
+                                    description: widget.property.description,
+                                    imagesURL: widget.property.imagesURL,
+                                    bedrooms: widget.property.bedrooms,
+                                    area: widget.property.area,
+                                    monthlyRent: widget.property.monthlyRent,
+                                    address: widget.property.address,
+                                    hasLounge: widget.property.hasLounge,
+                                    uploadByUser: context
+                                        .read<AuthProvider>()
+                                        .currentUser!
+                                        .uid,
+                                    isSold: true),
+                                null)
+                            .then(
+                              (value) => context.read<RentProvider>().create(
+                                    PropertyRent(
+                                        propertyId: widget.property.id,
+                                        proprietorId:
+                                            widget.property.uploadByUser,
+                                        tenantId: context
+                                            .read<AuthProvider>()
+                                            .currentUser!
+                                            .uid,
+                                        rentHistory: []),
+                                  ),
+                            );
                       } else {
                         Navigator.pushReplacement(
                           context,

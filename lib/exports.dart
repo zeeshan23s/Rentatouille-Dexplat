@@ -26,6 +26,7 @@ export 'screens/authentication/email_verification_screen.dart';
 export 'screens/manage_property_screen.dart';
 export 'screens/property_detail_screen.dart';
 export 'screens/chat_screen.dart';
+export 'screens/rent_history_screen.dart';
 
 // Widget Exports
 export 'widgets/core/custom_button.dart';
@@ -48,6 +49,7 @@ export 'tabs/properties_tab.dart';
 export 'tabs/news_tab.dart';
 export 'tabs/profile_tab.dart';
 export 'tabs/chat_tab.dart';
+export 'tabs/rent_tab.dart';
 
 // State Management (Provider)
 export 'package:provider/provider.dart';
@@ -58,6 +60,7 @@ export 'providers/role_provider.dart';
 export 'providers/property_provider.dart';
 export 'providers/chat_provider.dart';
 export 'providers/review_provider.dart';
+export 'providers/rent_provider.dart';
 
 // Firebase Exports
 export 'package:firebase_core/firebase_core.dart';
@@ -75,6 +78,7 @@ export 'models/news.dart';
 export 'models/property.dart';
 export 'models/chat.dart';
 export 'models/property_review.dart';
+export 'models/property_rent.dart';
 
 // API Exports
 export 'package:dio/dio.dart';

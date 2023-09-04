@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final _proprietorTabs = [
     PropertiesTab(),
-    const NewsTab(),
+    const RentTab(),
     const ChatTab(),
     ProfileTab(),
   ];
@@ -69,6 +69,30 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              _menuItem(
+                                  icon: Icons.payment,
+                                  label: 'My Rent',
+                                  onPressed: () {
+                                    context.read<RentProvider>().viewRents({
+                                      'tenantId': context
+                                          .read<AuthProvider>()
+                                          .currentUser!
+                                          .uid
+                                    }).then((value) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: ((context) =>
+                                              RentHistoryScreen(
+                                                  rentHistroy: value.docs.first
+                                                      .data()
+                                                      .entries
+                                                      .first
+                                                      .value)),
+                                        ),
+                                      );
+                                    });
+                                  }),
                               _menuItem(
                                   icon: Icons.switch_account,
                                   label: userRole.userRole == RoleType.tenant
