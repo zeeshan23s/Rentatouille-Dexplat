@@ -103,11 +103,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                     _isMenuOpen = false;
                                   }),
                               _menuItem(
-                                icon: Icons.logout,
-                                label: 'Logout',
-                                onPressed: () =>
-                                    context.read<AuthProvider>().logout(),
-                              )
+                                  icon: Icons.logout,
+                                  label: 'Logout',
+                                  onPressed: () {
+                                    context.read<AuthProvider>().logout();
+                                    if (userRole.userRole ==
+                                        RoleType.proprietor) {
+                                      userRole.toggleRole();
+                                    }
+                                  })
                             ],
                           ),
                         ),

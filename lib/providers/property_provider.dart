@@ -17,11 +17,13 @@ class PropertyProvider with ChangeNotifier {
       FirebaseFirestore.instance.collection('properties');
   static final _storage = FirebaseStorage.instance;
 
-  Future<void> create(Property property, List<XFile> images) async {
+  Future<String?> create(Property property, List<XFile> images) async {
     _isLoading = true;
     notifyListeners();
 
     final List<String> imagesURL = [];
+
+    String? propertyId;
 
     try {
       await _propertyCollection.add(property.toMap()).then(
@@ -33,6 +35,7 @@ class PropertyProvider with ChangeNotifier {
           _propertyCollection
               .doc(value.id)
               .update({'id': value.id, 'imagesURL': imagesURL});
+          propertyId = value.id;
           _status = {'status': 'success', 'message': 'Successfully Created!'};
         },
       );
@@ -44,6 +47,8 @@ class PropertyProvider with ChangeNotifier {
 
     _isLoading = false;
     notifyListeners();
+
+    return propertyId;
   }
 
   Stream<QuerySnapshot> myProperties(String userID) {
@@ -55,7 +60,7 @@ class PropertyProvider with ChangeNotifier {
   Stream<QuerySnapshot> inventoryProperties(String value, String userID) {
     return _propertyCollection
         .where('isSold', isEqualTo: false)
-        // .where('uploadByUser', isNotEqualTo: userID)
+        .where('uploadByUser', isNotEqualTo: userID)
         .snapshots();
   }
 

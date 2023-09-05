@@ -30,7 +30,8 @@ class _ChatTabState extends State<ChatTab> {
 
       for (DocumentSnapshot chat in chats.docs) {
         Property? property = await _getPropertyInfo(chat['propertyID']);
-        AppUser? user = await _getUserInfo(chat['${userRole.name}ID']);
+        AppUser? user = await _getUserInfo(chat[
+            '${userRole == RoleType.tenant ? RoleType.proprietor.name : RoleType.tenant.name}ID']);
         _chats.add({'chatId': chat.id, 'property': property, 'user': user});
       }
     }

@@ -217,25 +217,36 @@ class _ManagePropertyState extends State<ManageProperty> {
             if (widget.property == null) {
               await property
                   .create(
-                    Property(
-                        id: '',
-                        title: _titleController.text,
-                        description: _descriptionController.text,
-                        imagesURL: [],
-                        bedrooms: int.parse(_bedroomController.text),
-                        area: int.parse(_areaController.text),
-                        monthlyRent: int.parse(_monthlyRentController.text),
-                        address: _addressController.text.toLowerCase(),
-                        hasLounge: hasLounge,
-                        uploadByUser:
-                            context.read<AuthProvider>().currentUser!.uid,
-                        isSold: false,
-                        buyerId: null),
-                    _images,
-                  )
-                  .whenComplete(
-                    () => Navigator.pop(context),
-                  );
+                Property(
+                    id: '',
+                    title: _titleController.text,
+                    description: _descriptionController.text,
+                    imagesURL: [],
+                    bedrooms: int.parse(_bedroomController.text),
+                    area: int.parse(_areaController.text),
+                    monthlyRent: int.parse(_monthlyRentController.text),
+                    address: _addressController.text.toLowerCase(),
+                    hasLounge: hasLounge,
+                    uploadByUser: context.read<AuthProvider>().currentUser!.uid,
+                    isSold: false,
+                    buyerId: null),
+                _images,
+              )
+                  .then((value) {
+                if (value != null) {
+                  context
+                      .read<ReviewProvider>()
+                      .create(
+                        PropertyReview(
+                            propertyId: value,
+                            reviewProviderIds: [],
+                            reviews: 0),
+                      )
+                      .whenComplete(
+                        () => Navigator.pop(context),
+                      );
+                }
+              });
             } else {
               await property
                   .update(

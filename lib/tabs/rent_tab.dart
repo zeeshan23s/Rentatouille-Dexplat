@@ -179,7 +179,8 @@ class _RentTabState extends State<RentTab> {
                                                         .primaryColor,
                                                 foregroundColor: Theme.of(
                                                         context)
-                                                    .scaffoldBackgroundColor),
+                                                    .scaffoldBackgroundColor,
+                                                isLoading: rent.isLoading),
                                           ),
                                           SizedBox(
                                               width: Responsive.screenWidth(
