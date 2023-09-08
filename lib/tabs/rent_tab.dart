@@ -1,3 +1,5 @@
+import 'package:url_launcher/url_launcher.dart';
+
 import '../../exports.dart';
 
 class RentTab extends StatefulWidget {
@@ -59,6 +61,14 @@ class _RentTabState extends State<RentTab> {
     setState(() {
       _rentLoading = false;
     });
+  }
+
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launchUrl(launchUri);
   }
 
   Future<Property?> _getPropertyInfo(String propertyId) async {
@@ -196,6 +206,10 @@ class _RentTabState extends State<RentTab> {
                                                         .id,
                                                     _remainingRents[index]
                                                         ['rentHistory']);
+                                                _makePhoneCall(
+                                                    _remainingRents[index]
+                                                            ['tenant']
+                                                        .phoneNumber);
                                               },
                                               backgroundColor: Theme.of(context)
                                                   .primaryColor,
